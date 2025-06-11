@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>游戏详情 - 91play</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJESURBVFhH7ZY9aBRBFMf/u3t7l7vE5L6STxAUBEGwEGwEGwsLwU4QxEpBULAUG0GwsLKxFlGwkcRGrGwECxsLQbAJaAhJLnf52N3Z2Z3deW/wYhLvLoYk3kU2P1jYfW/e/P+/mZ0Zr4wxxF/EcQyMMTDGoJQiWmv+8YuiKHD7wUPsPngEYwwPrXXjnUVRwHXdxjVKKSRJAsdxeK/dbmNrawvtdhvGGKRpyuOu6yIMQ/i+D9d1eU3TNAiCAFEUwfd9XgMAnU4Hvu9jfX0dQgiklEjTFEKIXwKUUhBCQGuNPM+RZRmyLEOe58jznNeklPhfUEqR53lDQErJBWitIaWEUopPgJQS9IxQSvEJkGVZQ4BSCkmS8AmQUkIpBa01sixDmqZcgNYaQggopaC15vdorZFlGZIkQRzHiKIIYRgiDEOEYYggCBAEAYQQkFJCSgmlFKSUEEJwAWVZNgQ451BKIcsyJEnCJ0BrDaUUF6CUQpZlXMDvQCkFrTWSJEGWZUiSBFJKLkBrDSEEtNbI85xPgNYaWmskScIFKKWQpikXoLWGEAJaa+R5zjOgtUae50iShAvQWkMIAa01hBBcgFIKaZpyAVprCCH4BEgp+QRIKaGUQhzHXIDWGkIIaK2RJAkXoLWGEAJKKQghkOc5F6CUghCCZ0AIwQUopZAkCRegteYToJSCEAJxHHMBWmsIIaCUghCCC1BKQQjBBWitIYTgE6CUghACcRxzAVprLkBrjTiOuQCtNYQQUEpBCMEFKKUghOACyrLkE6CUghACcRz/AezY1FNucRY9AAAAAElFTkSuQmCC">
+    <style>
+        .game-detail {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .game-header {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .game-thumbnail {
+            width: 300px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .game-info-detail {
+            flex: 1;
+        }
+
+        .game-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .game-meta {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .game-description {
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .game-frame-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        .game-instructions {
+            background: #f5f5f5;
+            padding: 1.5rem;
+            border-radius: 4px;
+            margin-top: 2rem;
+        }
+
+        .game-instructions h3 {
+            margin-bottom: 1rem;
+        }
+
+        .related-games {
+            margin-top: 3rem;
+        }
+
+        .related-games h2 {
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">91play</a>
+            <div class="nav-links">
+                <a href="index.html">首页</a>
+                <a href="games.html">游戏列表</a>
+                <a href="categories.html">游戏分类</a>
+                <a href="guides.html">游戏攻略</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容 -->
+    <main class="main-content">
+        <div class="game-detail">
+            <h1 class="game-title"></h1>
+            <div class="game-info">
+                <div class="game-description"></div>
+                <div class="game-instructions">
+                    <h3>游戏说明</h3>
+                    <p></p>
+                </div>
+            </div>
+            <div class="game-container">
+                <!-- 游戏 iframe 将在这里动态加载 -->
+            </div>
+        </div>
+
+        <!-- 相关游戏推荐 -->
+        <div class="related-games">
+            <h2>相关游戏推荐</h2>
+            <div class="games-grid">
+                <!-- 相关游戏将通过JavaScript动态加载 -->
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // 从URL获取游戏ID
+        const urlParams = new URLSearchParams(window.location.search);
+        const gameId = urlParams.get('id');
+
+        // 加载游戏详情
+        async function loadGameDetail() {
+            try {
+                const response = await fetch('game_data.json');
+                const games = await response.json();
+                const game = games.find(g => g.game_id === gameId);
+                
+                if (!game) {
+                    document.querySelector('.game-detail').innerHTML = '<h2>游戏未找到</h2>';
+                    return;
+                }
+
+                // 渲染游戏详情
+                document.querySelector('.game-detail').innerHTML = `
+                    <div class="game-header">
+                        <img src="${game.thumb || 'placeholder.jpg'}" alt="${game.title}" class="game-thumbnail">
+                        <div class="game-info-detail">
+                            <h1 class="game-title">${game.title}</h1>
+                            <div class="game-meta">
+                                <span>类型：${game.type}</span>
+                                <span>支持移动端：${game.mobile ? '是' : '否'}</span>
+                            </div>
+                            <p class="game-description">${game.description}</p>
+                        </div>
+                    </div>
+                    <div class="game-frame-container">
+                        ${game.embed_code}
+                    </div>
+                    <div class="game-instructions">
+                        <h3>游戏说明</h3>
+                        <p>${game.instructions || '暂无游戏说明'}</p>
+                    </div>
+                `;
+
+                // 加载相关游戏
+                const relatedGames = games
+                    .filter(g => g.type === game.type && g.game_id !== game.game_id)
+                    .slice(0, 4);
+
+                document.querySelector('.games-grid').innerHTML = relatedGames
+                    .map(g => `
+                        <div class="game-card">
+                            <img src="${g.thumb || 'placeholder.jpg'}" alt="${g.title}">
+                            <div class="game-info">
+                                <h3 class="game-title">${g.title}</h3>
+                                <p class="game-description">${g.description}</p>
+                                <a href="game.html?id=${g.game_id}" class="game-button">开始游戏</a>
+                            </div>
+                        </div>
+                    `)
+                    .join('');
+
+                // 更新页面标题
+                document.title = `${game.title} - 游戏乐园`;
+            } catch (error) {
+                console.error('加载游戏详情失败:', error);
+                document.querySelector('.game-detail').innerHTML = '<h2>加载失败</h2>';
+            }
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', loadGameDetail);
+    </script>
+</body>
+</html> 

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>游戏列表 - 91play</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJESURBVFhH7ZY9aBRBFMf/u3t7l7vE5L6STxAUBEGwEGwEGwsLwU4QxEpBULAUG0GwsLKxFlGwkcRGrGwECxsLQbAJaAhJLnf52N3Z2Z3deW/wYhLvLoYk3kU2P1jYfW/e/P+/mZ0Zr4wxxF/EcQyMMTDGoJQiWmv+8YuiKHD7wUPsPngEYwwPrXXjnUVRwHXdxjVKKSRJAsdxeK/dbmNrawvtdhvGGKRpyuOu6yIMQ/i+D9d1eU3TNAiCAFEUwfd9XgMAnU4Hvu9jfX0dQgiklEjTFEKIXwKUUhBCQGuNPM+RZRmyLEOe58jznNeklPhfUEqR53lDQErJBWitIaWEUopPgJQS9IxQSvEJkGVZQ4BSCkmS8AmQUkIpBa01sixDmqZcgNYaQggopaC15vdorZFlGZIkQRzHiKIIYRgiDEOEYYggCBAEAYQQkFJCSgmlFKSUEEJwAWVZNgQ451BKIcsyJEnCJ0BrDaUUF6CUQpZlXMDvQCkFrTWSJEGWZUiSBFJKLkBrDSEEtNbI85xPgNYaWmskScIFKKWQpikXoLWGEAJaa+R5zjOgtUae50iShAvQWkMIAa01hBBcgFIKaZpyAVprCCH4BEgp+QRIKaGUQhzHXIDWGkIIaK2RJAkXoLWGEAJKKQghkOc5F6CUghCCZ0AIwQUopZAkCRegteYToJSCEAJxHHMBWmsIIaCUghCCC1BKQQjBBWitIYTgE6CUghACcRxzAVprLkBrjTiOuQCtNYQQUEpBCMEFKKUghOACyrLkE6CUghACcRz/AezY1FNucRY9AAAAAElFTkSuQmCC">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">91play</a>
+            <div class="nav-links">
+                <a href="index.html">首页</a>
+                <a href="games.html">游戏列表</a>
+                <a href="categories.html">游戏分类</a>
+                <a href="guides.html">游戏攻略</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容 -->
+    <main class="main-content">
+        <!-- 搜索和筛选 -->
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="搜索游戏...">
+        </div>
+
+        <div class="categories">
+            <span class="category-tag active">全部</span>
+            <span class="category-tag">动作</span>
+            <span class="category-tag">益智</span>
+            <span class="category-tag">策略</span>
+            <span class="category-tag">模拟</span>
+            <span class="category-tag">休闲</span>
+            <span class="category-tag">冒险</span>
+        </div>
+
+        <!-- 游戏列表 -->
+        <div class="games-grid">
+            <!-- 游戏卡片将通过JavaScript动态加载 -->
+        </div>
+
+        <!-- 分页 -->
+        <div class="pagination">
+            <button class="pagination-button">上一页</button>
+            <button class="pagination-button active">1</button>
+            <button class="pagination-button">2</button>
+            <button class="pagination-button">3</button>
+            <button class="pagination-button">下一页</button>
+        </div>
+    </main>
+
+    <script src="js/main.js"></script>
+</body>
+</html> 
