@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teen G-Idle Style - 91Play</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="../index.html">
+                    <h1>91Play</h1>
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="../index.html">首页</a></li>
+                <li><a href="../games.html">所有游戏</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="game-detail">
+            <h2>Teen G-Idle Style</h2>
+            <div class="game-container">
+                <iframe src="https://y8.com/embed/teen_g-idle_style" scrolling="no" style="width: 800px; height: 600px; border: 0; margin: 0; padding: 0;"></iframe>
+            </div>
+            <div class="game-info">
+                <div class="game-description">
+                    <h3>游戏说明</h3>
+                    <p>享受这款精彩的游戏！使用鼠标或键盘进行操作。</p>
+                </div>
+                <div class="game-controls">
+                    <h3>游戏控制</h3>
+                    <p>鼠标点击 - 选择和操作<br>
+                    键盘方向键 - 移动</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="related-games">
+            <h3>相关游戏</h3>
+            <div class="game-grid">
+                <!-- 相关游戏将通过JavaScript动态生成 -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <h2>91Play</h2>
+                <p>你的在线游戏天地</p>
+            </div>
+            <div class="footer-links">
+                <h3>快速链接</h3>
+                <ul>
+                    <li><a href="../index.html">首页</a></li>
+                    <li><a href="../games.html">所有游戏</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 91Play. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../games-data.js"></script>
+    <script>
+        // 获取相关游戏容器
+        const relatedGamesGrid = document.querySelector('.related-games .game-grid');
+        
+        // 随机选择4个相关游戏
+        const shuffledGames = gamesData
+            .sort(() => 0.5 - Math.random())
+            .slice(0, 4);
+        
+        // 添加相关游戏到页面
+        shuffledGames.forEach(game => {
+            const gameCard = document.createElement('div');
+            gameCard.className = 'game-card';
+            
+            gameCard.innerHTML = `
+                <img src="../${game.thumbnail_path}" alt="${game.name}">
+                <h4>${game.name}</h4>
+                <a href="${game.name.toLowerCase().replace(/[^a-z0-9]+/g, '_')}.html" class="play-btn">开始游戏</a>
+            `;
+            
+            relatedGamesGrid.appendChild(gameCard);
+        });
+    </script>
+</body>
+</html> 

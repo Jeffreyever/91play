@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>所有游戏 - 91Play</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="index.html">
+                    <h1>91Play</h1>
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="games.html" class="active">所有游戏</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="games-header">
+            <h1>所有游戏</h1>
+            <div class="category-filters">
+                <button class="filter-btn active" data-category="all">全部</button>
+                <button class="filter-btn" data-category="fashion">时尚装扮</button>
+                <button class="filter-btn" data-category="medical">医疗游戏</button>
+                <button class="filter-btn" data-category="cooking">美食烹饪</button>
+                <button class="filter-btn" data-category="decor">创意装饰</button>
+            </div>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="搜索游戏...">
+            </div>
+        </div>
+
+        <div class="game-grid" id="gameGrid">
+            <!-- 游戏卡片将通过JavaScript动态加载 -->
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <h2>91Play</h2>
+                <p>你的在线游戏天地</p>
+            </div>
+            <div class="footer-links">
+                <h3>快速链接</h3>
+                <ul>
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="games.html">所有游戏</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 91Play. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="games-data.js"></script>
+    <script>
+        // 获取URL参数
+        const urlParams = new URLSearchParams(window.location.search);
+        const categoryParam = urlParams.get('category');
+
+        // 游戏分类映射
+        const categoryMap = {
+            'fashion': ['Teen', 'Style', 'Fashion', 'Outfit', 'Cute', 'Girly'],
+            'medical': ['Hospital', 'Medical', 'Emergency', 'Care'],
+            'cooking': ['Kitchen', 'Chef', 'Food', 'Cooking', 'Recipe'],
+            'decor': ['Decor', 'Design', 'Room', 'Hair', 'Nail']
+        };
+
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', () => {
+            loadGames();
+            setupEventListeners();
+            
+            // 如果URL中有分类参数，自动选中对应分类
+            if (categoryParam) {
+                const filterBtn = document.querySelector(`[data-category="${categoryParam}"]`);
+                if (filterBtn) {
+                    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                    filterBtn.classList.add('active');
+                    filterGames(categoryParam);
+                }
+            }
+        });
+
+        // 设置事件监听器
+        function setupEventListeners() {
+            // 分类按钮点击事件
+            document.querySelectorAll('.filter-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    filterGames(button.dataset.category);
+                });
+            });
+
+            // 搜索输入事件
+            document.getElementById('searchInput').addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                filterGames(document.querySelector('.filter-btn.active').dataset.category, searchTerm);
+            });
+        }
+
+        // 加载游戏
+        function loadGames() {
+            const gameGrid = document.getElementById('gameGrid');
+            gameGrid.innerHTML = ''; // 清空现有内容
+
+            gamesData.forEach(game => {
+                const gameCard = createGameCard(game);
+                gameGrid.appendChild(gameCard);
+            });
+        }
+
+        // 创建游戏卡片
+        function createGameCard(game) {
+            const card = document.createElement('div');
+            card.className = 'game-card';
+            card.innerHTML = `
+                <div class="game-thumb">
+                    <img src="${game.thumbnail_path}" alt="${game.name}">
+                    <div class="game-overlay">
+                        <a href="games/${game.name.toLowerCase().replace(/[^a-z0-9]+/g, '_')}.html" class="play-now">立即游戏</a>
+                    </div>
+                </div>
+                <div class="game-info">
+                    <h3>${game.name}</h3>
+                    <span class="game-tag">${getGameCategory(game.name)}</span>
+                </div>
+            `;
+            return card;
+        }
+
+        // 获取游戏分类
+        function getGameCategory(gameName) {
+            const name = gameName.toLowerCase();
+            for (const [category, keywords] of Object.entries(categoryMap)) {
+                if (keywords.some(keyword => name.includes(keyword.toLowerCase()))) {
+                    switch(category) {
+                        case 'fashion': return '时尚';
+                        case 'medical': return '医疗';
+                        case 'cooking': return '烹饪';
+                        case 'decor': return '装饰';
+                        default: return '其他';
+                    }
+                }
+            }
+            return '其他';
+        }
+
+        // 过滤游戏
+        function filterGames(category, searchTerm = '') {
+            const gameGrid = document.getElementById('gameGrid');
+            gameGrid.innerHTML = '';
+
+            gamesData.forEach(game => {
+                const gameName = game.name.toLowerCase();
+                const gameCategory = getGameCategory(game.name).toLowerCase();
+                
+                // 检查是否符合分类和搜索条件
+                const matchesCategory = category === 'all' || 
+                    (category === 'fashion' && categoryMap.fashion.some(keyword => gameName.includes(keyword.toLowerCase()))) ||
+                    (category === 'medical' && categoryMap.medical.some(keyword => gameName.includes(keyword.toLowerCase()))) ||
+                    (category === 'cooking' && categoryMap.cooking.some(keyword => gameName.includes(keyword.toLowerCase()))) ||
+                    (category === 'decor' && categoryMap.decor.some(keyword => gameName.includes(keyword.toLowerCase())));
+                
+                const matchesSearch = gameName.includes(searchTerm);
+
+                if (matchesCategory && matchesSearch) {
+                    const gameCard = createGameCard(game);
+                    gameGrid.appendChild(gameCard);
+                }
+            });
+        }
+    </script>
+</body>
+</html> 
